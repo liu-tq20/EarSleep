@@ -6,10 +6,10 @@ Hearing your sleep stage
 
 ### Data Collection
 
-Referred to [github repository](https://github.com/bpine0/Sleep-Stages-Classification).
 
 Data from a single night of sleep for five individuals was obtained, using an Android phone accelerometer for motion data and a Huawei Watch 2 for heart rate data. The data was saved as CSV files, which are located in the `./data` folder for analysis. Sleep stages—awake, deep (REM, NREM3), and light sleep (NREM1, NREM2)—were categorized using an established sleep app.
 
+Referred to this [repository](https://github.com/bpine0/Sleep-Stages-Classification).
 
 
 ### Model Training
