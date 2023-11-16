@@ -175,12 +175,19 @@ clf = RandomForestClassifier(n_estimators=100, criterion="entropy", max_depth=10
 # cv = cross_validation.KFold(n, n_folds=10, shuffle=True, random_state=None)
 cv = KFold(n_splits=10, shuffle=True, random_state=None)
 
-def compute_accuracy(conf):
+def compute_accuracy_all(conf):
     r0c0 = conf[0][0]
     r1c1 = conf[1][1]
     r2c2 = conf[2][2]
     accuracy = float(r0c0+r1c1+r2c2)/np.sum(conf)
     print("accuracy: {}".format(accuracy))
+    return accuracy
+
+def compute_accuracy(conf, col):
+    #TP + TN/(P + N)
+    rc = conf[col][col]
+    accuracy = float(rc)/np.sum(conf[0][col]+conf[1][col]+conf[2][col])
+    print("accuracy {}: {}".format(col, accuracy))
     return accuracy
 
 def compute_recall(conf, col):
@@ -226,7 +233,7 @@ def compute_precision(conf, row):
     print("precision {}: {}".format(row, precision))
     return precision
 
-fold = np.zeros([7,10])
+fold = np.zeros([10,10])
 #rows:
 #acc
 #pre 1
@@ -252,25 +259,32 @@ for i, (train_indexes, test_indexes) in enumerate(cv.split(X)):
     
     print("Fold {} : The confusion matrix is :".format(i))
     print(conf)
-    acc = compute_accuracy(conf)
+    acc = compute_accuracy_all(conf)
     fold[0,i] = acc
     for j in range(3):
+        acc = compute_accuracy(conf, j)
         pre = compute_precision(conf, j)
         rec = compute_recall(conf,j)
-        fold[1+j, i] = pre
-        fold[4+j, i] = rec
+        fold[1+j, i] = acc
+        fold[4+j, i] = pre
+        fold[7+j, i] = rec
 
-    
     print("\n")
 
+print("fold: ", fold)
 avg_conf = np.mean(fold, axis = 1)
+print("avg_conf: ", avg_conf)
+
 print("average accuracy: {0:.3f}".format(avg_conf[0]))
-print("average precision awake: {0:.3f}".format(avg_conf[1]))
-print("average recall awake: {0:.3f}".format(avg_conf[2]))
-print("average precision light sleep: {0:.3f}".format(avg_conf[3]))
-print("average recall light sleep: {0:.3f}".format(avg_conf[4]))
-print("average precision deep sleep: {0:.3f}".format(avg_conf[5]))
-print("average recall deep sleep: {0:.3f}".format(avg_conf[6]))
+print("average accuracy awake: {0:.3f}".format(avg_conf[1]))
+print("average precision awake: {0:.3f}".format(avg_conf[2]))
+print("average recall awake: {0:.3f}".format(avg_conf[3]))
+print("average accuracy light sleep: {0:.3f}".format(avg_conf[4]))
+print("average precision light sleep: {0:.3f}".format(avg_conf[5]))
+print("average recall light sleep: {0:.3f}".format(avg_conf[6]))
+print("average accuracy deep sleep: {0:.3f}".format(avg_conf[7]))
+print("average precision deep sleep: {0:.3f}".format(avg_conf[8]))
+print("average recall deep sleep: {0:.3f}".format(avg_conf[9]))
     
 
 # when ready, set this to the best model you found, trained on all the data:

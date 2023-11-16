@@ -28,10 +28,13 @@ The `Model_recognition.py` script uses the pre-trained model to categorize raw s
 
 Key metrics for the three-stage classification are as follows:
 
-- Average accuracy: 98.6%
+- Average overall accuracy: 98.6%
+- Awake class accuracy: 99.9%
 - Awake precision: 98.1%
-- Awake recall: 98.5%
-- Light sleep precision: 97.8%
-- Light sleep recall: 98.7%
-- Deep sleep precision: 99.6%
-- Deep sleep recall: 90.2%
+- Awake recall: 93.5%
+- Light sleep class accuracy:98.9%
+- Light sleep precision: 93.8%
+- Light sleep recall: 96.7%
+- Deep sleep class accuracy: 97.1%
+- Deep sleep precision: 93.6%
+- Deep sleep recall: 88.2%
